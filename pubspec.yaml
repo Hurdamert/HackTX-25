@@ -1,0 +1,16 @@
+name: metrono_flutter
+description: Landing page + metronome demo
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  soundpool: ^2.4.1          # low-latency SFX playback
+  google_fonts: ^6.2.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/tick.wav
+    - assets/tock.wav
