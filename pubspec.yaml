@@ -1,4 +1,4 @@
-name: metrono_flutter
+name: metronome_hub
 description: Landing page + metronome demo
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -8,6 +8,7 @@ dependencies:
     sdk: flutter
   soundpool: ^2.4.1          # low-latency SFX playback
   google_fonts: ^6.2.1
+  audioplayers: ^6.5.1
 
 flutter:
   uses-material-design: true

@@ -1,0 +1,70 @@
+# Flutter/Dart/Pub stuff
+.dart_tool/
+.packages
+build/
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.melos_tool/
+coverage/
+generated_plugin_registrant.dart
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+.history/
+
+# Android
+**/android/**/gradle-wrapper.jar
+**/android/.gradle/
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/key.properties
+**/android/.cxx/
+**/android/app/build/
+**/android/.idea/
+
+# iOS/macOS
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/ephemeral/
+**/ios/Runner.xcworkspace/
+**/macos/Flutter/ephemeral/
+**/macos/Pods/
+**/macos/.symlinks/
+**/macos/Runner.xcworkspace/
+
+# Web / Linux / Windows build outputs
+**/web/.dart_tool/
+**/linux/build/
+**/windows/build/
+**/web/.dart_tool/
+**/build/web/
+
+# Misc
+*.log
+*.tmp
+*.swp
+*.DS_Store
+Thumbs.db
+
+# Environment or secret keys
+.env
+.env.*
+key.properties
+google-services.json
+GoogleService-Info.plist
+
+# Test / temp
+test/**/coverage/
