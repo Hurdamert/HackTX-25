@@ -11,7 +11,7 @@ class MetronomeController {
   int beatsPerBar = 4;
   bool isRunning = false;
   final _rng = Random();
-  
+
   final _pool = Soundpool.fromOptions(
     options: const SoundpoolOptions(streamType: StreamType.music),
   );
@@ -27,7 +27,6 @@ class MetronomeController {
     _tockId ??= await rootBundle.load('assets/tock.wav').then(_pool.load);
   }
 
-  // Self-correcting loop: schedule next tick from a fixed epoch to avoid drift.
   void start() {
     if (isRunning) return;
     isRunning = true;
@@ -42,12 +41,12 @@ class MetronomeController {
       final delay = Duration(microseconds: max(0, targetUs - nowUs));
 
       _timer = Timer(delay, () async {
-        // play sound
         final accent = (_beatIndex % beatsPerBar) == 0;
         final id = accent ? _tockId : _tickId;
-        if (id != null) _pool.play(id, rate: 1.0 + (_rng.nextDouble() * 0.0001)); // tiny rate jitter avoids artifacts
-        HapticFeedback.lightImpact(); // cosmetic, not timing-accurate
-
+        if (id != null) {
+          _pool.play(id, rate: 1.0 + (_rng.nextDouble() * 0.0001));
+        }
+        HapticFeedback.lightImpact();
         _beatIndex++;
         scheduleNext(n + 1);
       });
@@ -74,7 +73,6 @@ class MetronomeController {
     beatsPerBar = value.clamp(1, 12);
   }
 
-  // Tap-tempo: median of last 4 intervals
   void tap() {
     final now = DateTime.now().millisecondsSinceEpoch;
     _tapTimes.add(now);
@@ -93,12 +91,69 @@ class MetronomeController {
 
   Future<void> dispose() async {
     stop();
-    if (_tickId != null) _pool.dispose();
-    if (_tockId != null) _pool.dispose();
     await _pool.release();
   }
 }
 
+/// Press-and-hold icon button for ±BPM
+class RepeatIconButton extends StatefulWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+  final VoidCallback onRepeat;
+  final Duration initialDelay;
+  final Duration repeatInterval;
+
+  const RepeatIconButton({
+    super.key,
+    required this.icon,
+    required this.onTap,
+    required this.onRepeat,
+    this.initialDelay = const Duration(milliseconds: 250),
+    this.repeatInterval = const Duration(milliseconds: 250),
+  });
+
+  @override
+  State<RepeatIconButton> createState() => _RepeatIconButtonState();
+}
+
+class _RepeatIconButtonState extends State<RepeatIconButton> {
+  Timer? _timer;
+
+  void _startRepeat() {
+    widget.onRepeat();
+    _timer = Timer(widget.initialDelay, () {
+      _timer = Timer.periodic(widget.repeatInterval, (_) => widget.onRepeat());
+    });
+  }
+
+  void _stopRepeat() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  @override
+  void dispose() {
+    _stopRepeat();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: widget.onTap,
+      onLongPressStart: (_) => _startRepeat(),
+      onLongPressEnd: (_) => _stopRepeat(),
+      child: SizedBox(
+        width: 48,
+        height: 48,
+        child: Icon(widget.icon, size: 28, color: Colors.black),
+      ),
+    );
+  }
+}
+
+/// Main UI panel
 class MetronomePanel extends StatefulWidget {
   final MetronomeController controller;
   const MetronomePanel({super.key, required this.controller});
@@ -116,9 +171,9 @@ class _MetronomePanelState extends State<MetronomePanel> {
     widget.controller.init().then((_) => setState(() => _ready = true));
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  void _nudgeBpm(int delta) {
+    final next = (widget.controller.bpm + delta).clamp(20, 300);
+    setState(() => widget.controller.setBpm(next as int));
   }
 
   @override
@@ -128,21 +183,45 @@ class _MetronomePanelState extends State<MetronomePanel> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // BPM row
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('BPM', style: Theme.of(context).textTheme.titleMedium),
-            Text('${c.bpm}', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
+            Text('${c.bpm}',
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
           ],
         ),
-        Slider(
-          value: c.bpm.toDouble(),
-          min: 20, max: 300, divisions: 280,
-          onChanged: (v) => setState(() => c.setBpm(v.round())),
+        const SizedBox(height: 8),
+
+        // BPM arrows + display
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RepeatIconButton(
+              icon: Icons.arrow_back,
+              onTap: () => _nudgeBpm(-1),
+              onRepeat: () => _nudgeBpm(-10),
+            ),
+            SizedBox(
+              width: 120,
+              child: Center(
+                child: Text(
+                  '${c.bpm} BPM',
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
+            RepeatIconButton(
+              icon: Icons.arrow_forward,
+              onTap: () => _nudgeBpm(1),
+              onRepeat: () => _nudgeBpm(10),
+            ),
+          ],
         ),
 
-        // Meter + controls
+        const SizedBox(height: 12),
+
         Row(
           children: [
             const Text('Beats/Bar'),
@@ -156,7 +235,13 @@ class _MetronomePanelState extends State<MetronomePanel> {
             ),
             const Spacer(),
             FilledButton.icon(
-              onPressed: _ready ? (c.isRunning ? c.stop : c.start) : null,
+              onPressed: _ready
+                  ? () {
+                      setState(() {
+                        c.isRunning ? c.stop() : c.start();
+                      });
+                    }
+                  : null,
               icon: Icon(c.isRunning ? Icons.stop : Icons.play_arrow),
               label: Text(c.isRunning ? 'Stop' : 'Start'),
             ),
