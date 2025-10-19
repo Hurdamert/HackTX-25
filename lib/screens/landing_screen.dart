@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/metronome.dart';
+import './upload_page.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -42,7 +43,17 @@ class _LandingScreenState extends State<LandingScreen> {
                     FilledButton.tonal(
                       onPressed: () {}, // placeholder for Sign in
                       child: const Text('Sign in'),
-                    )
+                    ),
+                            const SizedBox(width: 8),
+                    FilledButton.tonal(
+                      onPressed: () {
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const UploadPage()),
+                      );
+                      },
+                        child: const Text('Upload Sheet Music'),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 12),
@@ -57,7 +68,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Your tempos, anywhere.',
+                      Text('Save your tempos anywhere.',
                         style: GoogleFonts.inter(fontSize: 26, fontWeight: FontWeight.w900),
                       ),
                       const SizedBox(height: 6),
@@ -80,7 +91,6 @@ class _LandingScreenState extends State<LandingScreen> {
                   children: const [
                     _FeatureChip(icon: Icons.music_note, text: 'Tap tempo'),
                     _FeatureChip(icon: Icons.timeline, text: 'Accented downbeat'),
-                    _FeatureChip(icon: Icons.cloud_sync, text: 'Cloud-ready'),
                   ],
                 ),
 
@@ -101,7 +111,7 @@ class _LandingScreenState extends State<LandingScreen> {
                         style: GoogleFonts.inter(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w800),
                       ),
                       const SizedBox(height: 6),
-                      Text('Paste titles, we’ll auto-suggest BPM and time signature.',
+                      Text('Paste titles, we’ll auto-suggest BPM and time signatures with AI!',
                         style: GoogleFonts.inter(color: Colors.white.withValues()),
                       ),
                       const SizedBox(height: 10),
