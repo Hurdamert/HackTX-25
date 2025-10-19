@@ -20,7 +20,7 @@ import os, pandas as pd, pretty_midi
 #     df.to_csv(out_csv, index=False)
 #     print(f"✅ Saved dataset: {out_csv}")
 
-def build_dataset(midi_dir="data/lmd_matched", out_csv="data/tempo_dataset.csv", limit=None):
+def build_dataset(midi_dir="backend/data/lmd_matched", out_csv="backend/data/tempo_dataset.csv", limit=None):
     """
     Walks through all subdirectories of midi_dir, extracts features,
     estimates tempo, and saves to CSV.

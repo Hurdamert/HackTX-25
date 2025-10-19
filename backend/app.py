@@ -5,10 +5,10 @@ import shutil, os
 
 app = FastAPI()
 
-@app.post("/predict-tempo")
+@app.post("backend/predict-tempo")
 async def predict_tempo_endpoint(file: UploadFile):
     os.makedirs("temp", exist_ok=True)
-    temp_path = f"temp/{file.filename}"
+    temp_path = f"backend/temp/{file.filename}"
 
     # Save uploaded MIDI file
     with open(temp_path, "wb") as buffer:
