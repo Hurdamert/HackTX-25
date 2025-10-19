@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-def download_midi(url, save_dir="data/midi"):
+def download_midi(url, save_dir="backend/data/midi"):
     os.makedirs(save_dir, exist_ok=True)
     filename = os.path.basename(url)
     if not filename.endswith(".mid"):
@@ -29,7 +29,7 @@ def download_midi(url, save_dir="data/midi"):
     except Exception as e:
         print(f"❌ Failed to download {url}: {e}")
 
-def scrape_midi_links(base_url, save_dir="data/midi"):
+def scrape_midi_links(base_url, save_dir="backend/data/midi"):
     response = requests.get(base_url)
     soup = BeautifulSoup(response.text, "html.parser")
     links = [a["href"] for a in soup.find_all("a", href=True) if a["href"].endswith(".mid")]
@@ -40,7 +40,7 @@ def scrape_midi_links(base_url, save_dir="data/midi"):
 
 def scrape_lakh():
     url = "http://hog.ee.columbia.edu/craffel/lmd/lmd_matched.tar.gz"
-    save_path = "data/lmd_matched.tar.gz"
+    save_path = "backend/data/lmd_matched.tar.gz"
 
     with requests.get(url, stream=True) as r:
         r.raise_for_status()

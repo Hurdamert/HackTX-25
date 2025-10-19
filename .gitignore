@@ -68,3 +68,6 @@ GoogleService-Info.plist
 
 # Test / temp
 test/**/coverage/
+
+backend/data/lmd_matched/
+backend/data/lmd_matched.tar.gz

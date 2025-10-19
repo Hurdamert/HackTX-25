@@ -6,9 +6,9 @@ import tensorflow as tf
 from tensorflow.keras import layers, models
 from midi_features import extract_features
 
-MODEL_PATH = "trained_model/tempo_model.keras"
+MODEL_PATH = "backend/trained_model/tempo_model.keras"
 
-def train_model(csv_path="data/tempo_dataset.csv", epochs=20, test_split=0.2):
+def train_model(csv_path="backend/data/tempo_dataset.csv", epochs=20, test_split=0.2):
     """
     Train a neural network to predict tempo from MIDI features.
     """
