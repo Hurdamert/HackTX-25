@@ -1,16 +1,12 @@
 # metronome_hub
 
-A new Flutter project.
+A great flutter project!
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+If you wish to run it on your local device:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Download Flutter and clone the repository
+2. Download all of the dependencies
+3. Run the instance by running "flutter run -d chrome"
+4. Enjoy your new metronome!
