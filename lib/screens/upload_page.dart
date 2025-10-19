@@ -40,7 +40,7 @@ class UploadPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                "Accepted formats: PDF, MusicXML, MIDI (future support)",
+                "Accepted formats: PDF, MusicXML, MIDI",
                 style: GoogleFonts.inter(color: Colors.grey[700]),
                 textAlign: TextAlign.center,
               ),

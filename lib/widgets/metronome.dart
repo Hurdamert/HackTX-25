@@ -172,7 +172,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
 
   void _nudgeBpm(int delta) {
     final next = (widget.controller.bpm + delta).clamp(20, 300);
-    setState(() => widget.controller.setBpm(next as int));
+    setState(() => widget.controller.setBpm(next));
   }
 
   @override

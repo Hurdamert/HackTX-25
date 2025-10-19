@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'screens/landing_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() => runApp(const MetronomeHubApp());
+void main() async{
+    WidgetsFlutterBinding.ensureInitialized();
+    //await Firebase.initializeApp();
+    runApp(const MetronomeHubApp());
+}
 
 class MetronomeHubApp extends StatelessWidget {
   const MetronomeHubApp({super.key});
