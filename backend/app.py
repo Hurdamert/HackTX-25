@@ -28,8 +28,17 @@
 from fastapi import FastAPI, UploadFile
 from backend.model import predict_tempo
 import shutil, os
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or specify your Flutter web domain later
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/backend/predict-tempo")
 async def predict_tempo_endpoint(file: UploadFile):
