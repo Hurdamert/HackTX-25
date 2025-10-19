@@ -9,6 +9,8 @@ dependencies:
   soundpool: ^2.4.1          # low-latency SFX playback
   google_fonts: ^6.2.1
   audioplayers: ^6.5.1
+  http: ^1.2.0
+  file_picker: ^8.0.0
 
 flutter:
   uses-material-design: true
