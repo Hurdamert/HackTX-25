@@ -40,11 +40,13 @@ class _LandingScreenState extends State<LandingScreen> {
                         fontWeight: FontWeight.w800, fontSize: 22, color: const Color(0xFF0F172A),
                       ),
                     ),
+                    Row(
+                      children: [
                     FilledButton.tonal(
                       onPressed: () {}, // placeholder for Sign in
                       child: const Text('Sign in'),
                     ),
-                            const SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     FilledButton.tonal(
                       onPressed: () {
                       Navigator.push(
@@ -56,6 +58,8 @@ class _LandingScreenState extends State<LandingScreen> {
                     ),
                   ],
                 ),
+              ],
+            ),
                 const SizedBox(height: 12),
 
                 // Hero card
@@ -96,33 +100,6 @@ class _LandingScreenState extends State<LandingScreen> {
 
                 const SizedBox(height: 20),
 
-                // CTA card
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [cs.primary, cs.primaryContainer]),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  padding: const EdgeInsets.all(18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Import songs from text or PDF',
-                        style: GoogleFonts.inter(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w800),
-                      ),
-                      const SizedBox(height: 6),
-                      Text('Paste titles, we’ll auto-suggest BPM and time signatures with AI!',
-                        style: GoogleFonts.inter(color: Colors.white.withValues()),
-                      ),
-                      const SizedBox(height: 10),
-                      FilledButton(
-                        style: FilledButton.styleFrom(backgroundColor: Colors.white, foregroundColor: cs.primary),
-                        onPressed: () {}, // navigate to Import later
-                        child: const Text('Try import'),
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
